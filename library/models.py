@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 class Book(models.Model):
@@ -33,3 +35,17 @@ class BorrowRecord(models.Model):
 
     def __str__(self):
         return "Book title: %s, Borrower name: %s, Borrow date: %s, return date: %s," % (self.title, self.borrower_name, self.borrow_date, self.return_date)
+    
+@receiver(post_save, sender=BorrowRecord)
+def update_book_availability(sender, instance, created, **kwargs):
+    print("========")
+    print(kwargs)
+    print("========")
+    if created:
+        # Book is being borrowed
+        instance.book.is_available = False
+        instance.book.save()
+    elif instance.return_date:
+        # Book is being returned
+        instance.book.is_available = True
+        instance.book.save()
