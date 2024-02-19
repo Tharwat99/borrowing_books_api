@@ -35,7 +35,7 @@ MIDDLEWARE = [
 
 ]
 
-ROOT_URLCONF = 'datalex4ai.urls'
+ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
     {
@@ -53,7 +53,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'datalex4ai.wsgi.application'
+WSGI_APPLICATION = 'api.wsgi.application'
 
 
 
@@ -119,8 +119,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Datalex4ai Site',
-    'DESCRIPTION': 'Datalex4ai backend',
+    'TITLE': 'Borrowing Book API',
+    'DESCRIPTION': 'Borrowing Book API',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
