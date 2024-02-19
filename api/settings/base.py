@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'debug_toolbar',
-    'library'
+    'library',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,6 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+
+
+AUTH_USER_MODEL = 'user.User'
