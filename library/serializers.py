@@ -2,11 +2,21 @@ from rest_framework import serializers
 from .models import Book, BorrowRecord
 from user.serializers import UserSerializer
 
-class BookListSerializer(serializers.ModelSerializer):
+class BookCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
 
+class BookListSerializer(serializers.ModelSerializer):
+    is_avaliable = serializers.SerializerMethodField('get_is_avaliable')
+
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+    def get_is_avaliable(self, obj):
+        return obj.is_available
+    
 class BookDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
@@ -33,11 +43,6 @@ class BorrowRecordListSerializer(serializers.ModelSerializer):
     class Meta:
         model = BorrowRecord
         fields = '__all__'
-    def validate(self, attrs):
-        try:
-            super().validate(attrs)
-        except Exception as e:
-            print(e)
         
 class BorrowRecordDetailsSerializer(serializers.ModelSerializer):
     book = BookDetailsSerializer()

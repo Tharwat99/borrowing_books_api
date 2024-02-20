@@ -1,6 +1,7 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from .models import Book, BorrowRecord
 from .serializers import (
+    BookCreateSerializer,
     BookListSerializer, 
     BookDetailsSerializer, 
     BorrowRecordCreateSerializer, 
@@ -8,6 +9,11 @@ from .serializers import (
     BorrowRecordDetailsSerializer
 )
 
+class BookCreateView(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookCreateSerializer
+    permission_classes = [permissions.IsAdminUser]
+    
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookListSerializer
@@ -23,6 +29,7 @@ class BorrowRecordCreateView(generics.CreateAPIView):
 class BorrowRecordListView(generics.ListAPIView):
     queryset = BorrowRecord.objects.all()
     serializer_class = BorrowRecordListSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 class BorrowRecordRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = BorrowRecord.objects.all()
