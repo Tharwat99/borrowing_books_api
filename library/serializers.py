@@ -8,15 +8,11 @@ class BookCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BookListSerializer(serializers.ModelSerializer):
-    is_avaliable = serializers.SerializerMethodField('get_is_avaliable')
-
+    
     class Meta:
         model = Book
         fields = '__all__'
 
-    def get_is_avaliable(self, obj):
-        return obj.is_available
-    
 class BookDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
@@ -33,8 +29,6 @@ class BorrowRecordCreateSerializer(serializers.ModelSerializer):
             return super().create(validated_data)
         except Exception as e:
             raise serializers.ValidationError({"details": e.args[0]})
-        
-    
 
 class BorrowRecordListSerializer(serializers.ModelSerializer):
     book = BookDetailsSerializer()

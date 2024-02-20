@@ -5,6 +5,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
+if DEBUG:
+    import socket  # only if you haven't already imported this
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
+
 DB_ENGINE = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
 DB_NAME = os.getenv("DB_NAME", os.path.join(BASE_DIR, "db.sqlite3"))
 DB_HOST = os.getenv("DB_HOST", None)
