@@ -38,10 +38,23 @@ class BorrowRecordListSerializer(serializers.ModelSerializer):
         model = BorrowRecord
         fields = '__all__'
         
-class BorrowRecordDetailsSerializer(serializers.ModelSerializer):
+class BorrowRecordRetrieveSerializer(serializers.ModelSerializer):
     book = BookDetailsSerializer()
     borrower = UserSerializer()
 
     class Meta:
         model = BorrowRecord
         fields = '__all__'
+
+class BorrowRecordUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = BorrowRecord
+        fields = '__all__'
+    
+    def update(self, instance, validated_data):
+        try:
+            return super().update(instance, validated_data)
+        except Exception as e:
+            print("hello here")
+            raise serializers.ValidationError({"details": e.args[0]})

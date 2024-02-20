@@ -21,12 +21,15 @@ class Book(models.Model):
     def __str__(self):
         return "%s" % (self.title)
 
-    @property
-    def check_availability(self):
+    def check_availability(self, borrower=None):
+        print(borrower)
         current_date = timezone.now().date()
         borrow_records = self.borrowrecord_set.filter(
-        Q(return_date__gt=current_date) | Q(return_date=None)
+        ~Q(borrower = borrower) &
+        Q(Q(return_date__gt=current_date) | Q(return_date=None))
         ).order_by('return_date')
+        print(borrow_records)
+        print(borrow_records.exists())
         return not borrow_records.exists() 
 
 class BorrowRecord(models.Model):
@@ -48,7 +51,7 @@ class BorrowRecord(models.Model):
         super().clean()
         if not self.book_id:
             raise ValidationError("Book is required.")
-        if not self.book.check_availability or not self.book.is_available:
+        if not self.book.check_availability(self.borrower):
             raise ValidationError("Book is not available to borrow at the moment.")
         if self.return_date and self.return_date <= self.borrow_date:
             raise ValidationError("Return date should be after the borrow date.")
@@ -66,12 +69,12 @@ def update_book_availability(sender, instance, created, **kwargs):
         # Book is being borrowed
         instance.book.is_available = False
         instance.book.save()
-    elif instance.return_date != None and instance.return_date < timezone.now():
+    elif instance.return_date != None and instance.return_date < timezone.now().date():
         # Book is being returned
         instance.book.is_available = True
         instance.book.save()
 
 @receiver(post_delete, sender=BorrowRecord)
 def update_book_availability(sender, instance, **kwargs):
-        instance.book.is_available= instance.book.check_availability    
+        instance.book.is_available= instance.book.check_availability()    
         instance.book.save()
