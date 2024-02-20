@@ -1,24 +1,29 @@
 from rest_framework import generics
 from .models import Book, BorrowRecord
 from .serializers import (
-    BookListCreateSerializer, 
+    BookListSerializer, 
     BookDetailsSerializer, 
-    BorrowRecordListCreateSerializer, 
+    BorrowRecordCreateSerializer, 
+    BorrowRecordListSerializer,
     BorrowRecordDetailsSerializer
 )
 
-class BookListCreateView(generics.ListCreateAPIView):
+class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
-    serializer_class = BookListCreateSerializer
+    serializer_class = BookListSerializer
 
-class BookRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class BookRetrieveView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookDetailsSerializer
 
-class BorrowRecordListCreateView(generics.ListCreateAPIView):
+class BorrowRecordCreateView(generics.CreateAPIView):
     queryset = BorrowRecord.objects.all()
-    serializer_class = BorrowRecordListCreateSerializer
+    serializer_class = BorrowRecordCreateSerializer
 
-class BorrowRecordRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+class BorrowRecordListView(generics.ListAPIView):
+    queryset = BorrowRecord.objects.all()
+    serializer_class = BorrowRecordListSerializer
+
+class BorrowRecordRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = BorrowRecord.objects.all()
     serializer_class = BorrowRecordDetailsSerializer

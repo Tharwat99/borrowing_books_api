@@ -1,9 +1,10 @@
 from django.urls import path
-from library.views import BookListCreateView, BookRetrieveUpdateDestroyView, BorrowRecordListCreateView, BorrowRecordRetrieveUpdateDestroyView
+from library.views import BookListView, BookRetrieveView, BorrowRecordCreateView, BorrowRecordListView, BorrowRecordRetrieveUpdateView
 
 urlpatterns = [
-    path('books/', BookListCreateView.as_view(), name='book-list-create'),
-    path('books/<int:pk>/', BookRetrieveUpdateDestroyView.as_view(), name='book-retrieve-update-destroy'),
-    path('borrow/', BorrowRecordListCreateView.as_view(), name='borrow-record-list-create'),
-    path('borrow/<int:pk>/', BorrowRecordRetrieveUpdateDestroyView.as_view(), name='borrow-record-retrieve-update-destroy'),
+    path('books-list/', BookListView.as_view(), name='book-list'),
+    path('books-details/<int:pk>/', BookRetrieveView.as_view(), name='book-details'),
+    path('borrow-book/', BorrowRecordCreateView.as_view(), name='borrow-book'),
+    path('borrow-records/', BorrowRecordListView.as_view(), name='borrow-records-list'),
+    path('borrow-records-details/<int:pk>/', BorrowRecordRetrieveUpdateView.as_view(), name='borrow-records-details')
 ]
