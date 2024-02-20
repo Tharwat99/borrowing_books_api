@@ -28,7 +28,7 @@ class BorrowRecordCreateView(generics.CreateAPIView):
     serializer_class = BorrowRecordCreateSerializer
 
 class BorrowRecordListView(generics.ListAPIView):
-    queryset = BorrowRecord.objects.all()
+    queryset = BorrowRecord.objects.select_related('book').select_related('borrower').all()
     serializer_class = BorrowRecordListSerializer
     permission_classes = [permissions.IsAdminUser]
 
