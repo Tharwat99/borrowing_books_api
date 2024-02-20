@@ -22,14 +22,11 @@ class Book(models.Model):
         return "%s" % (self.title)
 
     def check_availability(self, borrower=None):
-        print(borrower)
         current_date = timezone.now().date()
         borrow_records = self.borrowrecord_set.filter(
         ~Q(borrower = borrower) &
         Q(Q(return_date__gt=current_date) | Q(return_date=None))
         ).order_by('return_date')
-        print(borrow_records)
-        print(borrow_records.exists())
         return not borrow_records.exists() 
 
 class BorrowRecord(models.Model):
