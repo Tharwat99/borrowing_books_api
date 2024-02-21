@@ -14,7 +14,15 @@ $ cd borrowing_books_api
 Create a virtual environment to install dependencies in and activate it:
 
 ```sh
-$ virtualenv2 --no-site-packages env
+$ python -m venv env
+```
+in Window
+```sh
+$ cd env/Scripts
+$ activate
+```
+or Linux
+```sh
 $ source env/bin/activate
 ```
 
