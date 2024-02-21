@@ -11,8 +11,8 @@ from .serializers import (
     BorrowRecordRetrieveSerializer,
     BorrowRecordUpdateSerializer
 )
-from .paginations import BorrowerRecordsListPagination
-from .filters import BorrowRecordListFilter
+from .paginations import BooksListPagination, BorrowerRecordsListPagination
+from .filters import BookListFilter, BorrowRecordListFilter
 
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
@@ -22,7 +22,10 @@ class BookCreateView(generics.CreateAPIView):
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookListSerializer
-
+    pagination_class = BooksListPagination
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = BookListFilter
+    
 class BookRetrieveView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookDetailsSerializer
