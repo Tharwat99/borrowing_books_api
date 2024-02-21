@@ -11,8 +11,7 @@ from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiResponse
                 'email': {'type': 'string'},
                 'first_name': {'type': 'string'},
                 'last_name': {'type': 'string'},
-                'password': {'type': 'string'},
-               
+                'password': {'type': 'string'},  
             }
         },
     },
