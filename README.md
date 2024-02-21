@@ -31,10 +31,22 @@ Then install the dependencies:
 ```sh
 (env)$ pip install -r requirements.txt
 ```
-Note the `(env)` in front of the prompt. This indicates that this terminal
-session operates in a virtual environment set up by `virtualenv2`.
+You should create .env file in api dir and variables inside it:
 
-Then makemigrations and migrate models to sqlite db:
+**Note:** Create a SECRET_KEY value for your app by running the following command at a terminal prompt: python -c 'import secrets; print(secrets.token_hex())'.
+
+```sh
+SECRET_KEY = "<put_your_secret_key_here>"
+DEBUG = True
+# optional parts
+# DB_ENGINE='django.db.backends.mysql'
+# DB_HOST='staging-db'
+# DB_NAME='datalex4ai_db'
+# DB_USER='datalex4ai_user'
+# DB_PASSWORD='datalex4ai_password'
+# DB_PORT=3306
+```
+Then makemigrations and migrate models to sqlite db or any db you add it to settings:
 
 ```sh
 (env)$ python manage.py makemigrations 
