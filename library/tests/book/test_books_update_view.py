@@ -8,7 +8,7 @@ class TestBookUpdateView:
     def test_book_update_admin_success(self, create_admin_user_token, api_client, book_factory):
         book1 = book_factory()
         token_data = create_admin_user_token
-        assert book1.title == "title9"
+        assert book1.title == "title12"
         new_data = {
             "title": "newtitle"
         }
@@ -25,7 +25,7 @@ class TestBookUpdateView:
     def test_book_update_forbidden(self, create_normal_user_token, api_client, book_factory):
         book1 = book_factory()
         token_data = create_normal_user_token
-        assert book1.title == "title10"
+        assert book1.title == "title13"
         new_data = {
             "title": "newtitle"
         }
@@ -37,11 +37,11 @@ class TestBookUpdateView:
         assert response.status_code == status.HTTP_403_FORBIDDEN
         # Refresh the book instance from the database
         book1.refresh_from_db()
-        assert book1.title == "title10"
+        assert book1.title == "title13"
     
     def test_book_update_unauthorized(self, api_client, book_factory):
         book1 = book_factory()
-        assert book1.title == "title11"
+        assert book1.title == "title14"
         new_data = {
             "title": "newtitle"
         }
@@ -52,4 +52,4 @@ class TestBookUpdateView:
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
         # Refresh the book instance from the database
         book1.refresh_from_db()
-        assert book1.title == "title11"
+        assert book1.title == "title14"

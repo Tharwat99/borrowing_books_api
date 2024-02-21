@@ -18,6 +18,7 @@ def create_normal_user_token(db, user_factory):
    user = user_factory()
    refresh = RefreshToken.for_user(user)
    return {
+      'user':user,
       'refresh': str(refresh),
       'access': str(refresh.access_token),
    }

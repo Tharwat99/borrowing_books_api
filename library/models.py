@@ -59,8 +59,8 @@ class BorrowRecord(models.Model):
         if self.id == None and not self.book.check_availability():
             raise ValidationError("Book is not available to borrow at the moment.")
         
-        if self.return_date and self.return_date <= self.borrow_date:
-            raise ValidationError("Return date should be after the borrow date.")
+        if self.return_date and self.return_date < self.borrow_date:
+            raise ValidationError("Return date can't be less than the borrow date.")
     
     def save(self, *args, **kwargs):
         self.clean()
