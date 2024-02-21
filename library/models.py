@@ -69,17 +69,6 @@ class BorrowRecord(models.Model):
     def __str__(self):
         return "Book title: %s, Borrower name: %s, Borrow date: %s, return date: %s," % (self.book.title, self.borrower.username, self.borrow_date, self.return_date)
 
-# @receiver(pre_save, sender=BorrowRecord)
-# def handle_borrow_records(sender, instance, **kwargs):
-#     print(instance.book)
-#     if not instance.book:
-#         raise ValidationError("Book is required.")
-#     if not instance.book.check_availability(instance.borrower):
-#         raise ValidationError("Book is not available to borrow at the moment.")
-#     if instance.return_date and instance.return_date <= instance.borrow_date:
-#             raise ValidationError("Return date should be after the borrow date.")
-#     # instance.id == None
-
 
 @receiver(post_save, sender=BorrowRecord)
 def update_book_availability(sender, instance, created, **kwargs):
