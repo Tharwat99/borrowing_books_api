@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, permissions, filters
 from .models import Book, BorrowRecord
 from .permissions import IsBorrowerOrAdmin
 from .serializers import (
@@ -9,8 +10,9 @@ from .serializers import (
     BorrowRecordListSerializer,
     BorrowRecordRetrieveSerializer,
     BorrowRecordUpdateSerializer
-
 )
+from .paginations import BorrowerRecordsListPagination
+from .filters import BorrowRecordListFilter
 
 class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
@@ -33,6 +35,9 @@ class BorrowRecordListView(generics.ListAPIView):
     queryset = BorrowRecord.objects.select_related('book').select_related('borrower').all()
     serializer_class = BorrowRecordListSerializer
     permission_classes = [permissions.IsAdminUser]
+    pagination_class = BorrowerRecordsListPagination
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = BorrowRecordListFilter
 
 class BorrowRecordRetrieveView(generics.RetrieveAPIView):
     queryset = BorrowRecord.objects.select_related('book').select_related('borrower').all()

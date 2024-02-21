@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'debug_toolbar',
+    'django_filters',
     'library',
     'user'
 ]
@@ -124,6 +125,7 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Borrowing Book API',
     'DESCRIPTION': 'Borrowing Book API',
