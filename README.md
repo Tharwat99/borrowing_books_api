@@ -63,6 +63,12 @@ To run the tests:
 (env)$ pytest
 ```
 
+Then create a super user that controls admin panel \:
+
+```sh
+(env)$ python manage.py createsuperuser
+```
+
 ## Run Server
 
 ```sh
@@ -81,4 +87,15 @@ $ docker-compose up --build
 To run the tests:
 ```sh
 (env)$ docker-compose run backend sh -c "pytest"
+```
+Then makemigrations and migrate models to sqlite db or any db you add it to settings:
+
+```sh
+  $ docker-compose run backend sh -c "python manage.py makemigrations"
+  $ docker-compose run backend sh -c "python manage.py migrate"
+```
+Then create a super user that controls admin panel:
+
+```sh
+$ docker-compose run backend sh -c "python manage.py createsuperuser"
 ```
