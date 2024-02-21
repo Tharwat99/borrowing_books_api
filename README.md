@@ -2,14 +2,15 @@
 Simple API for Borrow Books system for users. The API should allow normal users to view books, borrow books and 
 admin user to control book creation, update, and borrowing process.
 
-## Normal Setup
+## Clone Project
 
 The first thing to do is to clone the repository:
-
 ```sh
 $ git clone https://github.com/Tharwat99/borrowing_books_api.git
 $ cd borrowing_books_api
 ```
+
+## Normal Setup
 
 Create a virtual environment to install dependencies in and activate it:
 
