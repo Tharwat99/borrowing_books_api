@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from user.models import User
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 
 class Book(models.Model):
@@ -22,11 +22,14 @@ class Book(models.Model):
         return "%s" % (self.title)
 
     def check_availability(self, borrower=None):
+        print(borrower)
         current_date = timezone.now().date()
         borrow_records = self.borrowrecord_set.filter(
         ~Q(borrower = borrower) &
         Q(Q(return_date__gt=current_date) | Q(return_date=None))
         ).order_by('return_date')
+        print(borrow_records)
+        print(borrow_records.exists())
         return not borrow_records.exists() 
 
 class BorrowRecord(models.Model):
@@ -46,10 +49,16 @@ class BorrowRecord(models.Model):
 
     def clean(self):
         super().clean()
+        
         if not self.book_id:
+            raise ValidationError("Book is required.")
+        if not self.borrower_id:
             raise ValidationError("Book is required.")
         if not self.book.check_availability(self.borrower):
             raise ValidationError("Book is not available to borrow at the moment.")
+        if self.id == None and not self.book.check_availability():
+            raise ValidationError("Book is not available to borrow at the moment.")
+        
         if self.return_date and self.return_date <= self.borrow_date:
             raise ValidationError("Return date should be after the borrow date.")
     
@@ -59,6 +68,18 @@ class BorrowRecord(models.Model):
 
     def __str__(self):
         return "Book title: %s, Borrower name: %s, Borrow date: %s, return date: %s," % (self.book.title, self.borrower.username, self.borrow_date, self.return_date)
+
+# @receiver(pre_save, sender=BorrowRecord)
+# def handle_borrow_records(sender, instance, **kwargs):
+#     print(instance.book)
+#     if not instance.book:
+#         raise ValidationError("Book is required.")
+#     if not instance.book.check_availability(instance.borrower):
+#         raise ValidationError("Book is not available to borrow at the moment.")
+#     if instance.return_date and instance.return_date <= instance.borrow_date:
+#             raise ValidationError("Return date should be after the borrow date.")
+#     # instance.id == None
+
 
 @receiver(post_save, sender=BorrowRecord)
 def update_book_availability(sender, instance, created, **kwargs):
