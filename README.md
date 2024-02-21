@@ -7,7 +7,7 @@ admin user to control book creation, update, and borrowing process.
 The first thing to do is to clone the repository:
 
 ```sh
-$ git https://github.com/Tharwat99/borrowing_books_api.git
+$ git clone https://github.com/Tharwat99/borrowing_books_api.git
 $ cd borrowing_books_api
 ```
 
