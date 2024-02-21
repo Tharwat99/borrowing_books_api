@@ -13,7 +13,12 @@ class BookListSerializer(serializers.ModelSerializer):
         model = Book
         fields = '__all__'
 
-class BookDetailsSerializer(serializers.ModelSerializer):
+class BookRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '__all__'
+
+class BookUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
@@ -31,7 +36,7 @@ class BorrowRecordCreateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"details": e.args[0]})
 
 class BorrowRecordListSerializer(serializers.ModelSerializer):
-    book = BookDetailsSerializer()
+    book = BookRetrieveSerializer()
     borrower = UserSerializer()
 
     class Meta:
@@ -39,7 +44,7 @@ class BorrowRecordListSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class BorrowRecordRetrieveSerializer(serializers.ModelSerializer):
-    book = BookDetailsSerializer()
+    book = BookRetrieveSerializer()
     borrower = UserSerializer()
 
     class Meta:

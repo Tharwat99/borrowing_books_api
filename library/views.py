@@ -5,7 +5,8 @@ from .permissions import IsBorrowerOrAdmin
 from .serializers import (
     BookCreateSerializer,
     BookListSerializer, 
-    BookDetailsSerializer, 
+    BookRetrieveSerializer,
+    BookUpdateSerializer, 
     BorrowRecordCreateSerializer, 
     BorrowRecordListSerializer,
     BorrowRecordRetrieveSerializer,
@@ -28,7 +29,13 @@ class BookListView(generics.ListAPIView):
     
 class BookRetrieveView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
-    serializer_class = BookDetailsSerializer
+    serializer_class = BookRetrieveSerializer
+
+class BookUpdateView(generics.UpdateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookUpdateSerializer
+    permission_classes = [permissions.IsAdminUser]
+    
 
 class BorrowRecordCreateView(generics.CreateAPIView):
     queryset = BorrowRecord.objects.all()

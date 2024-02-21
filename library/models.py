@@ -53,7 +53,7 @@ class BorrowRecord(models.Model):
         if not self.book_id:
             raise ValidationError("Book is required.")
         if not self.borrower_id:
-            raise ValidationError("Book is required.")
+            raise ValidationError("Borrower is required.")
         if not self.book.check_availability(self.borrower):
             raise ValidationError("Book is not available to borrow at the moment.")
         if self.id == None and not self.book.check_availability():
